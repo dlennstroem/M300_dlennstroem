@@ -118,16 +118,16 @@ end
   
 ### 3.4. Umgebung
   Meine Umgebung besteht aus einer MySQL-VM und einem Apache-Webserver. 
-![](1.JPG)
+![](pics/1.JPG)
 Die Default-Policy der Firewall ist deny all. Folgende Regeln wurden erstellt, damit die Dienste ordnungsgemäss funktionieren: 
 
 **db01**
 
-![](2.JPG)
+![](pics/2.JPG)
 
 **web01**
 
-![](3.JPG)
+![](pics/3.JPG)
 
 ### 3.5. Netzplan
     +---------------------------------------------------------------+
@@ -170,7 +170,7 @@ Danach habe ich mit *sudo service apache2 restart* den Dienst neu gestartet.
 **Config-File**
  */etc/apache2/sites-enabled/001-001-reverseproxy.conf*
  
-![](4.JPG)
+![](pics/4.JPG)
  
  Ich hatte keine Zeit mehr, um EInstellungen vorzunehmen, desshalb habe ich es mal beim default gelassen.
 
