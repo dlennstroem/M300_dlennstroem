@@ -168,7 +168,7 @@ Danach habe ich die entsprechenden Apache-Module aktiviert:
 Danach habe ich mit *sudo service apache2 restart* den Dienst neu gestartet.
 
 **Config-File**
- /etc/apache2/sites-enabled/001-001-reverseproxy.conf
+ */etc/apache2/sites-enabled/001-001-reverseproxy.conf*
  
 ![](4.JPG)
  
