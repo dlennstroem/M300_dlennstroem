@@ -1,7 +1,7 @@
-# M300_dlennstroem
+# M300_dlennstroem LB2
 
 Doku der LB2 von David Lennström.
-In dieser LB werde ich  mithilfe von Vagrant einen Webserver automatisieren.
+In dieser LB werde ich  mithilfe von Vagrant einen Webserver und eine Datenbank automatisieren.
 
 ## 1. K1
 
