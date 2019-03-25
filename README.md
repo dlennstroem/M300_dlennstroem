@@ -42,3 +42,11 @@ Wie bereits erwähnt, lässt sich mit Vagrant eine VM Umgebung sehr einfach auto
   
   ### 3.3. Umgebung
   Meine Umgebung besteht aus einer MySQL-VM und einem Apache-Webserver. 
+![](1.JPG)
+Die Default-Policy der Firewall ist deny all. Folgende Regeln wurden erstellt, damit die Dienste ordnungsgemäss funktionieren: 
+
+**db01**
+![](2.JPG)
+
+**web01**
+![](3.JPG)
