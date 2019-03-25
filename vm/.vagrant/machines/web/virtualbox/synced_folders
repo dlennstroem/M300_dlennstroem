@@ -1,0 +1,1 @@
+{"virtualbox":{"/var/www/html":{"guestpath":"/var/www/html","hostpath":"C:/Users/chfse/M300_dlennstroem/vm/www","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Users/chfse/M300_dlennstroem/vm","disabled":false,"__vagrantfile":true}}}
