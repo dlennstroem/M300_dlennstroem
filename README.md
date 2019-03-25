@@ -114,8 +114,9 @@ end
  end
 
 ```
+
   
-### 3.3. Umgebung
+### 3.4. Umgebung
   Meine Umgebung besteht aus einer MySQL-VM und einem Apache-Webserver. 
 ![](1.JPG)
 Die Default-Policy der Firewall ist deny all. Folgende Regeln wurden erstellt, damit die Dienste ordnungsgemäss funktionieren: 
@@ -127,6 +128,34 @@ Die Default-Policy der Firewall ist deny all. Folgende Regeln wurden erstellt, d
 **web01**
 
 ![](3.JPG)
+
+### 3.5. Netzplan
+    +---------------------------------------------------------------+
+    ! Notebook - Schulnetz 10.x.x.x und Privates Netz 192.168.55.1  !                 
+    ! Port: 8080 (192.158.55.101:80)                                !	
+    !                                                               !	
+    !    +--------------------+          +---------------------+    !
+    !    ! Web Server         !          ! Datenbank Server    !    !       
+    !    ! Host: web01        !          ! Host: db01          !    !
+    !    ! IP: 192.168.55.101 ! <------> ! IP: 192.168.55.100  !    !
+    !    ! Port: 80           !          ! Port 3306           !    !
+    !    ! Nat: 8080          !          ! Nat: -              !    !
+    !    +--------------------+          +---------------------+    !
+    !                                                               !	
+    +---------------------------------------------------------------+
+	
+
+## 4. K4
+### 4.1. Firewall
+Die Firewall haben wir, wie bereits erwähnt, bereits im Vagrantfile eingerichtet. Hier noch die wichtigsten befehle:
+
+  -*vagrant init* -> erstellt automatisch eine VM und ein Vagrantfile
+  -*ufw -f enable/disable* -> Firewall enablen/disablen. -f = force (Per Standard ist sie disabled.)
+  -*ufw status* -> Statusanzeige mit allen Regeln
+  -*ufw allow* -> Einen Port öffnen.
+  -*ufw deny* -> Port schliessen.
+  
+### 4.2. 
 
 ## Reflexion
 
