@@ -155,7 +155,24 @@ Die Firewall haben wir, wie bereits erwähnt, bereits im Vagrantfile eingerichte
   -*ufw allow* -> Einen Port öffnen.
   -*ufw deny* -> Port schliessen.
   
-### 4.2. 
+### 4.2. Reverse Proxy
+Ich hatte für den Reverse-Proxy fast keine Zeit mehr. 
+Das Packet *sudo apt-get install libapache2-mod-proxy-html* liess sich nicht installieren. 
+Das Packet *sudo apt-get install libxml2-dev* aber schon.
+
+Danach habe ich die entsprechenden Apache-Module aktiviert:
+     -*a2enmod proxy*
+     -*a2enmod proxy_html*
+     -*a2enmod proxy_http*
+     
+Danach habe ich mit *sudo service apache2 restart* den Dienst neu gestartet.
+
+**Config-File**
+ /etc/apache2/sites-enabled/001-001-reverseproxy.conf
+ 
+![](4.JPG)
+ 
+ Ich hatte keine Zeit mehr, um EInstellungen vorzunehmen, desshalb habe ich es mal beim default gelassen.
 
 ## Reflexion
 
