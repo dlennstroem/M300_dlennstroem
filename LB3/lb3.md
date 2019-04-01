@@ -13,8 +13,8 @@ https://github.com/mc-b/M300/blob/master/30-Container/LB3.md
 ### 3.1. Verwendete Docker-Container
 
 ### 3.2. Docker Befehle
--*docker run [Argumente]*
---Startet ein Container.
+-*docker run [Argumente]* -> Startet ein Container.
+-*docker ps* -> Zeigt alle laufenden Container an.
 
 
 ## K4
