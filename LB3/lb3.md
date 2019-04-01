@@ -13,6 +13,7 @@ Folgende Software habe ich installiert, damit alles so läuft wie es sollte:
    installiert.
  - Git-Client für die Versionskontrolle
  - SSH-Key für den Client hinterlegt
+ - Docker-extension installiert.
 
 ## K2
 
