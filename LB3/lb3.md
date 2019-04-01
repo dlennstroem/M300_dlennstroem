@@ -28,6 +28,9 @@ Nachfolgend sind die wichtigsten Befehle für die verwendung von Docker aufgelis
   - *docker ps* -> Zeigt alle laufenden Container an.
     * -a -> Zeigt alle Container an. (aktive und inakktive)
     * -q -> Zeigt nur die IDs an.
+- *docker images* -> Zeigt alle lokalen images an.
+- *docker rm* -> Löscht einen oder mehrere Container.
+- *docker rmi* -> Löscht images
 ## K4
 
 ## K5
