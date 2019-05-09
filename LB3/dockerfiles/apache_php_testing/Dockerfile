@@ -1,23 +1,16 @@
-#
-#	Einfache MySQL Umgebung
-#
+#	Create MySQL-Container
+
 FROM ubuntu:14.04
 LABEL Dave M300 
 
-# root Password setzen, damit kein Dialog erscheint und die Installation haengt!
-RUN echo 'mysql-server mysql-server/root_password password S3cr3tp4ssw0rd' | debconf-set-selections 
-RUN echo 'mysql-server mysql-server/root_password_again password S3cr3tp4ssw0rd' | debconf-set-selections 
+# Install package & Set PWs
+RUN echo 'mysql-server mysql-server/root_password password Password123' | debconf-set-selections 
+RUN echo 'mysql-server mysql-server/root_password_again password Password123' | debconf-set-selections 
+RUN apt-get update && apt-get install -y mysql-server 
 
-# Installation
-RUN apt-get update && apt-get install -y mysql-server
-
-# mysql config - Port fuer alle Hosts oeffnen
+# open Ports for MySQL
 RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 
-#HEALTHCHECK --interval=5m --timeout=3s CMD curl -f localhost:3306 || exit 1
-
 EXPOSE 3306
-
 VOLUME /var/lib/mysql
-
 CMD ["mysqld"]
