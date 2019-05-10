@@ -1,5 +1,5 @@
-version: "3.3"
-
+version: "2.2"
+#http://172.28.128.3  -> Hostonly-Address
 services:
 
   pihole:
