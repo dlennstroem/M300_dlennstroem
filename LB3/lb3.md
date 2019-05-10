@@ -43,14 +43,11 @@ Nachfolgend sind die wichtigsten Befehle für die verwendung von Docker aufgelis
 Wenn man nun ein Dockerfile hat, kann man mit *docker build -t [image_name] .* ein Dockerimage erstellen. Kontrollieren, ob das Image erstellt wurde kann man mit dem Befehl *docker images*.
 
 ### 3.2. Umsetzung
-#### 3.2.1. Die Container
+#### Die Container
 Ich habe eine Entwicklungsumgebung für php aufgesetzt mit Verbindung zu einer MySQL-DB über einen Apache-Webserver. Alle Container habe ich in einem YML-File definiert. So kann alles gleichzeitig gestartet werden. Zuerst wollte ich alles mit Docker for Windows erstellen, dies ist aber nicht gegangen, obwohl ich Windows 10 Pro installiert habe. Also habe ich stattdessen schnell eine Ubuntu-VM mit Docker drauf über Vagrant erstellt, und alles darauf gemacht. 
 
-#### 3.2.2. Aufbau
+#### Aufbau
 
-##### Netzplan
-
-##### Ordnerstruktur
 Folgende Dateien / Verzeichnisse werden bennötigt:
 
 | <tab>              | <tab>                                                       |
@@ -59,8 +56,98 @@ Folgende Dateien / Verzeichnisse werden bennötigt:
 | docker-compose.yml | In dieser Datei werden alle Container definiert             |
 | Ordner PHP         | Dieser Ordner wird für den Container WEB benötigt           |
 | index.php          | Die Datei "index.php" dient als Testdatei für den Webserver |
+ 
+#### Docker-Compose
+Hier ist noch das YML-File. Ich musste die Parameter zur CPU und Memory-Begrenzung auskommentieren, das es nicht funktioniert hat mit ihnen. Im nachhinein habe ich noch herausgefunden, dass ich eine andere Version hätte nehmen können, dan hätte es funktioniert.
 
-#### 3.2.3. Ubuntu-VM (Vagrant)
+~~~~
+version: "2.2"
+
+services:
+
+  pihole:
+      container_name: pihole
+      image: pihole/pihole:latest
+      ports:
+        - "53:53/tcp"
+        - "53:53/udp"
+        - "67:67/udp"
+        - "80:80/tcp"
+        - "443:443/tcp"
+      environment:
+        TZ: 'Europe/Zurich'
+        WEBPASSWORD: '1234'
+      volumes:
+        - './etc-pihole/:/etc/pihole/'
+        - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      dns:
+        - 127.0.0.1
+        - 1.1.1.1
+      restart: unless-stopped
+
+      #cpus: 1
+      #mem_limit: 1024m
+
+
+  db:
+    image: mysql:5.7
+    container_name: db_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: dbteset
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "9906:3306"
+    #cpus: 1
+    #mem_limit: 1024m
+
+
+  web:
+    image: php:7.2.2-apache
+    container_name: php_web
+    volumes:
+      - ./php/:/var/www/html/
+    ports:
+      - "8100:80"
+    stdin_open: true
+    tty: true
+      
+    #cpus: 1
+    #mem_limit: 1024m
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    links:
+        - db:db
+    ports:
+        - 8080:80
+    restart: on-failure
+    environment:
+        MYSQL_ROOT_PASSWORD: 1234
+    #cpus: 1
+    #mem_limit: 1024m
+
+# monitoring gui
+  cadvisor:
+    image: google/cadvisor:v0.29.0
+    container_name: cadvisor
+    command: -storage_driver_db=cadvisor
+    restart: on-failure
+    ports:
+      - "8888:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    #cpus: 1
+#mem_limit: 1024m
+~~~~
+
+#### Centos-VM (Vagrant)
 Ursprünglich wollte ich alles auf meinem Notebook lokal machen, dies hat aber leider nicht geklappt, deshalb habe ich mit Vagrant kurzerhand eine CentOS 7 Box installiert und alles darauf gemacht.
 
 ##### Vagrantfile
@@ -87,23 +174,65 @@ Diese Schritte hätte man auch direkt ins Vagrantfile schreiben können, ich hab
 - Docker-Gruppe erstellt und User reingetan: `groupadd docker ; usermod -aG docker $USER `
 - Danach habe ich docker-compose gestartet, im Verzeichniss vom YML-File. `docker-compose up -d`
 
-#### 3.2.4. MySQL
+#### Pihole
 
-#### 3.2.5. PHP
+| <tab>             | <tab>                                                       |
+| ----------------- | ----------------------------------------------------------- |
+| **Configuration** | Value                                                       |
+| Container Name    | pihole                                                      |
+| Image             | pihole/pihole:latest                                        |
+| Ports             | 53:53/tcp , 53:53/udp , 67:67/udp , 80:80/tcp , 443:443/tcp |
+| Volumes           | -                                                           |
+| DNS               | 127.0.0.1, 1.1.1.1                                          |
 
-##### Dockerfile
+#### MySQL
+Dieser Container beinhaltet eine MySQL Datenbank
+
+| <tab>               | <tab>     |
+| ------------------- | --------- |
+| **Configuration**   | Value     |
+| Container Name      | db_mysql  |
+| Image               | mysql:5.7 |
+| Ports               | 9906:3306 |
+| Volumes             | -         |
+| MYSQL_ROOT_PASSWORD | 1234      |
+| MYSQL_DATABASE      | dbteset   |
+| MYSQL_USER          | dbuser    |
+| MYSQL_PASSWORD      | 1234      |
+ 
+#### Web
+Dieser Container beinhaltet einen Apache2 Webserver
+
+| <tab>             | <tab>                 |
+| ----------------- | --------------------- |
+| **Configuration** | Value                 |
+| container_name    | php_web               |
+| Image             | php:7.2.2-apache      |
+| Ports             | 8100:80               |
+| Volumes           | ./php/:/var/www/html/ |
 
 
-#### 3.2.6. Apache
+#### Phpmyadmin
+Dieser Container beinhaltet PHP MyAdmin, welche auf den Contaienr db_mysql verlinkt ist. 
 
-##### apache.conf
-Hier noch das Config-File für den Apache-Dienst
+| <tab>             | <tab>                  |
+| ----------------- | ---------------------- |
+| **Configuration** | Value                  |
+| container_name    | phpmyadmin             |
+| Image             | phpmyadmin/phpmyadmin. |
+| Ports             | 8080:80                |
+| Volumes           | -                      |
 
-##### Dockerfile
+#### Cadvisor
+Dieser Container beinhaltet das Überwachungstool Cadvisor. 
 
-
-#### 3.2.8. Testwebsite
-
+| <tab>             | <tab>                                                                                      |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| **Configuration** | Value                                                                                      |
+| container_name    | cadvisor                                                                                   |
+| Image             | google/cadvisor:v0.29.0                                                                    |
+| Ports             | 8888:8080                                                                                  |
+| Volumes           | /:/rootfs:ro ,/var/run:/var/run:rw ,  /sys:/sys:ro , /var/lib/docker/:/var , lib/docker:ro |
 
 
 
