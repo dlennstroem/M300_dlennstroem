@@ -51,9 +51,20 @@ Ich habe eine Entwicklungsumgebung für php aufgesetzt mit Verbindung zu einer M
 ##### Netzplan
 
 ##### Ordnerstruktur
+Folgende Dateien / Verzeichnisse werden bennötigt:
+
+| <tab>              | <tab>                                                       |
+| ------------------ | ----------------------------------------------------------- |
+| **Datei**          | Verwendung                                                  |
+| docker-compose.yml | In dieser Datei werden alle Container definiert             |
+| Ordner PHP         | Dieser Ordner wird für den Container WEB benötigt           |
+| index.php          | Die Datei "index.php" dient als Testdatei für den Webserver |
 
 #### 3.2.3. Ubuntu-VM (Vagrant)
+Ursprünglich wollte ich alles auf meinem Notebook lokal machen, dies hat aber leider nicht geklappt, deshalb habe ich mit Vagrant kurzerhand eine CentOS 7 Box installiert und alles darauf gemacht.
 
+##### Vagrantfile
+`Code test`
 
 #### 3.2.4. MySQL
 
