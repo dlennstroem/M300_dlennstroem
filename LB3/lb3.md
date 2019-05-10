@@ -1,9 +1,5 @@
 # Doku LB3
-Dokumentation der LB3 von D<bid Lennström.
-
-## Links:
-https://github.com/mc-b/M300/tree/master/30-Container
-https://github.com/mc-b/M300/blob/master/30-Container/LB3.md
+Dokumentation der LB3 von David Lennström.
 
 ## K1
 Folgende Software habe ich installiert, damit alles so läuft wie es sollte:
@@ -24,10 +20,10 @@ Ich habe den Markdown vor allem in VsCode geschrieben, da alles bereits installi
 
 ## K3 Applikation
 ### 3.1. Theorie
-#### 3.1.1.  Container
+#### Container
 Ein Container ist ein Prozess (oder eine Sammlung davon), welcher abgekapselt auf einem separatem Image ausgeführt wird. Alle benötigten Ressourcen werden von diesem Image bereitgestellt. Dies verschaft dem Container den Vorteil der Portabillität. Ausserdem sind Container ressourcenschonend und schnell.
 
-### 3.1.2. Docker Befehle
+### Docker Befehle
 Docker arbeitet mit so genannten "Dockerfiles". In diesen Dateien wird die Konfig für ein Container reingeschrieben.
 Nachfolgend sind die wichtigsten Befehle für die verwendung von Docker aufgelistet:
   - *docker run [Argumente]* -> Startet ein Container.
@@ -236,8 +232,19 @@ Dieser Container beinhaltet das Überwachungstool Cadvisor.
 
 
 
-## K4 Testing
+## K4 Containerabsicherung
+### Cadvisor
+cAdvisor ist ein Überwachungstool von Google, welches selber als Container läuft. In dieser Umgebung überwacht es die zu Verfügung gestellten CPUs und den Zugriff auf den RAM. Ebenfalls wird die Aulastung der Netzwerkkarten angezeigt. 
 
-## K5
+### Limitierung der Ressourcen
+Da unser Hostsystem nur begrenz Ressourcen hat, wird für jeden Container ein CPU und Memory Limit gesetzt. Somit ist gewährleistet, dass kein Container zu viele Ressourcen benötigt und somit den Host zum abstürzen bringen kann. Beim testen hat dies leider nicht ganz geklappt, die Parameter zu CPU und Memory hat es im YML-File nicht erkannt. Im nachhinein habe ich herausgefunden, dass es am Versions-Tag gelegen hat.
 
-## K6
+### Benchmark Security Tool
+Mit dem Skript Docker Bench Security kann die Sicherheit der Container überprüft werden. 
+Das Skript ist als Github Repository verfügbar: https://github.com/docker/docker-bench-security
+Sobald das Skript erfolgreich durchgelaufen ist, kann der Report des Skriptes angeschaut werden und die dementsprechenden Sicherheitseinstellungen konfiguriert werden. Ich hatte leider keine Zeit mehr, um das Skript laufen zu lassen.
+
+
+## K5 Reflexion 
+
+Ich habe in diesem Modul sehr viel neues dazugelernt. Zu beginn von M300 waren mir Container nur ein wager Begriff. Dank der LB3 habe ich nochmals sehr viel dazugelernt, vor allem über Docker-Compose und YML-Files. Zwar hatte ich zu Beginn ein wenig Mühe das Konzept mit den Container zu verstehen. Aber mit der Zeit hat es mir sehr Spass gemacht. Leider musste ich gegen Ende des Moduls recht stressen und konnte nicht alles fertig machen.  
