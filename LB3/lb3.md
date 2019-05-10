@@ -64,7 +64,28 @@ Folgende Dateien / Verzeichnisse werden bennötigt:
 Ursprünglich wollte ich alles auf meinem Notebook lokal machen, dies hat aber leider nicht geklappt, deshalb habe ich mit Vagrant kurzerhand eine CentOS 7 Box installiert und alles darauf gemacht.
 
 ##### Vagrantfile
-`Code test`
+~~~~# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "centos/7"
+    #config.vm.network "forwarded_port", guest: 80, host: 8080
+    config.vm.network "private_network", type: "dhcp"
+    config.vm.synced_folder ".", "/docker_dl", nfs: true
+    
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = "4096"  
+    end
+  end
+~~~~
+
+##### Konfig auf der VM
+Diese Schritte hätte man auch direkt ins Vagrantfile schreiben können, ich habe dies aber erst im nachhinein bemerkt.
+
+- Docker installieren: `yum install -y docker`
+- Gemäss dieser anleitung habe ich noch docker-compose installiert: https://linuxize.com/post/how-to-install-and-use-docker-compose-on-centos-7/
+- Docker-Gruppe erstellt und User reingetan: `groupadd docker ; usermod -aG docker $USER `
+- Danach habe ich docker-compose gestartet, im Verzeichniss vom YML-File. `docker-compose up -d`
 
 #### 3.2.4. MySQL
 
